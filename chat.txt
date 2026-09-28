@@ -1,0 +1,164 @@
+                 START
+                   ↓
+             load_chat()
+                   ↓
+            start_chatbot()
+                   ↓
+            get_user_input()
+                   ↓
+          ┌────────┼─────────------┐
+          ↓        ↓               ↓
+        "bye"    known?          unknown
+          ↓        ↓                ↓
+       goodbye()  find_answer()  remember question
+                                    ↓
+                                ask yes/no
+                                ↓       ↓
+                                yes      no
+                                 ↓       ↓
+                         teach_chatbot  continue
+                                ↓
+                            save_chat
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+You have now built a chatbot that can:
+Answer → Learn → Save → Restart → Remember
+###################################################################
+Learned from this project:
+
+| Concept            | Where you used it                                       |
+| ------------------ | ------------------------------------------------------- |
+| Variables          | `user`, `value`, `question`                             |
+| Dictionary         | `chat`                                                  |
+| Functions          | All your `def` functions                                |
+| Parameters         | `find_answer(user)`                                     |
+| Arguments          | `find_answer(user)` / `teach_chatbot(unknown_question)` |
+| `return`           | `find_answer()` / `load_chat()`                         |
+| `while` loop       | Main chatbot                                            |
+| `if/elif/else`     | Conversation decisions                                  |
+| `break`            | Exit chatbot                                            |
+| String methods     | `.lower()`                                              |
+| File handling      | `open()`                                                |
+| JSON               | `json.load()` / `json.dump()`                           |
+| Exception handling | `try/except`                                            |
+| Scope              | `unknown_question`                                      |
+| State/flag         | `waiting_for_answer`                                    |
+############################################################################################################################################################################################################################################################################
+
+TO CONNECT TO DATABASE USE FOLLOWING AT THE TOP OF PY FILE\
+import sqlite3
+
+connection = sqlite3.connect("chatbot.db")
+cursor = connection.cursor()
+
+├── chatbot.py              ← chatbot/user logic
+├── chatbot_database.py     ← database logic
+└── chatbot.db              ← actual data
+
+
+_____________________________________________________________________________
+| Method        | Purpose       | Our chatbot      |
+| ------------- | ------------- | ---------------- |
+| `GET`         | Retrieve data | Find an answer   |
+| `POST`        | Create data   | Teach the bot    |
+| `PUT`/`PATCH` | Update data   | Change an answer |
+| `DELETE`      | Delete data   | Remove knowledge |
+request ---The information that the client sent to our API.
+
+API is like the waiter.
+Flask is a Python tool/library that helps us create an API.
+(Without Flask, creating the web communication layer manually would be much harder.)
+
+An endpoint is basically a specific URL where your application provides some functionality. ex-/hello
+----------------------------------------------------------------------------------------------------
+JSON-
+For example:Website
+might be written in JavaScript.
+Your backend might be Python.
+Your database is SQLite.
+They need a common language for exchanging information.
+JSON is one very common format: Python ↔ JSON ↔ JavaScript
+
+_______________________________________________________________________
+how the POSTMAN thing works
+Let's make a very simple student application.
+User wants to create a student:
+Name: Gauri
+Age: 25
+Step 1 — Postman
+You send:
+POST /students
+with:
+{
+    "name": "Gauri",
+    "age": 25
+}
+↓
+
+Step 2 — API
+The API receives the request.
+↓
+Step 3 — Flask/Django
+Flask/Django handles the HTTP request and routes it to your Python code.
+↓
+Step 4 — Python
+Your Python code processes the information.
+name = "Gauri"
+age = 25
+↓
+Step 5 — Database
+Python/application saves it:
+ID    NAME     AGE
+1     Gauri    25
+↓
+Step 6 — Response
+The API sends:
+{
+    "message": "Student created successfully"
+}
+↓
+Step 7 — Postman
+Postman displays the response.
+
+| Thing        | Simple meaning                 | Think of it as     |
+| ------------ | ------------------------------ | ------------------ |
+| `.py` file   | Contains Python code           | 🧠 Brain           |
+| `main.py`    | Entry/start point in a project | 🚀 Start button    |
+| `api.py`     | Can contain API routes         | 🚪 Door            |
+| Database     | Stores information             | 🗄️ Storage        |
+| API          | Allows systems to communicate  | 📞 Communication   |
+| Flask/Django | Helps build web apps/APIs      | 🛠️ Framework/tool |
+| Postman      | Sends requests to test APIs    | 🎮 Testing remote  |
+______________________________________________________________________________________________________________
+Postman sends a request → API receives it → Flask/Django handles it → Python does the work
+→ Database stores/returns data → API sends the response back.
+______________________________________________________________________________________________________________
+These are HTTP status codes.
+400 Bad Request
+404 Not Found
+409 Conflict
+201 Created
+200 OK
+______________________________________________________________________________________________________________
+if __name__ == "__main__":-Start Flask only when I directly run api.py.
+
+______________________________________________________________________________________________________________
+On Flask/API server:
+"Explain the architecture of your chatbot API."
+
+You can answer:
+
+"I built a chatbot application using Flask, SQLite, and a separate database layer. Postman acts as the client and sends
+HTTP requests to my Flask API. The API layer exposes HTTP endpoints to clients and coordinates the request, validation,
+ database operations, and response.
+
+Based on the HTTP method and URL, Flask routes the request to the appropriate function in api.py.
+ The API validates and normalizes the input and then calls the required database function from chatbot_database.py.
+
+The database layer is responsible for communicating with SQLite and performing operations such as SELECT, INSERT,
+UPDATE, and DELETE. It returns the result back to the API layer.
+ The API then creates a JSON response with the appropriate HTTP status code and sends it back to the client.
+
+I separated the API and database responsibilities so that the API handles HTTP-related concerns,
+while the database module handles database-related operations. This makes the code easier to understand, maintain, and extend."
+______________________________________________________________________________________________________________
